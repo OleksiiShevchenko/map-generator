@@ -1,0 +1,24 @@
+{
+  "name": "invitationMaps",
+  "version": "0.1.0",
+  "description": "generate maps with routes and journey times for trade exhibition attendees via Google Maps API for an XLS dataset",
+  "scripts": {
+    "start": "node index.js",
+    "test": ""
+  },
+  "dependencies": {
+    "@google/maps": "^0.4.3",
+    "bluebird": "^3.5.0",
+    "bunyan": "^1.8.12",
+    "handlebars": "^4.0.10",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.18.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.4.1",
+    "gulp": "^3.9.1",
+    "nodemon": "^1.11.0",
+    "superagent": "^3.5.2"
+  }
+}
