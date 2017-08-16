@@ -1,10 +1,11 @@
 'use strict';
 
 const bunyan = require('bunyan');
-const path = require('path');
+const config = require('../../config');
+
 
 const logger = bunyan.createLogger({
-  name: 'invitationMaps',
+  name: 'map-generator',
   streams: [
     {
       level: 'info',
@@ -12,7 +13,7 @@ const logger = bunyan.createLogger({
     },
     {
       level: 'error',
-      path: path.join(__dirname, "../../../error.log")
+      path: config.logsPath
     }
   ]
 });

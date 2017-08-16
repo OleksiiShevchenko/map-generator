@@ -10,6 +10,6 @@ module.exports = {
   },
 
   pdfPath: path.normalize(root + '/files'),
-
+  logsPath: path.normalize(root + '/error.log')
 
 };

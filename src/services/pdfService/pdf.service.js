@@ -1,4 +1,5 @@
-//https://www.npmjs.com/package/html-pdf
+'use strict';
+
 const Promise = require('bluebird');
 const fs = require('fs');
 const path = require('path');
