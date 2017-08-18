@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "map-generator1",
+      "script": "./index.js",
+      "autorestart": false,
+      "env": {
+        "DATA_SRC": "filename1.xls"
+      }
+    },
+    {
+      "name": "map-generator2",
+      "script": "./index.js",
+      "autorestart": false,
+      "env": {
+        "DATA_SRC": "filename2.xls"
+      }
+    }
+  ]
+}

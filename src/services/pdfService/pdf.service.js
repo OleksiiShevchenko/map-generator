@@ -11,9 +11,8 @@ const PDFService = {
 
   /**
    * @param {Object} data
-   * @param {buffer} data.img
    * @param {string} data.imgSrc
-   * @param {Object} data.meta
+   * @param {Object} data.props
    * @return {bluebird}
    */
   generateDocument: (data) => new Promise((resolve, reject) => {
@@ -22,11 +21,20 @@ const PDFService = {
       orientation: "portrait"
     };
 
-    const html = RenderHBS.render('map.hbs', data);
+    const templateParams = {
+      startAddress: data.props.startAddress,
+      endAddress: data.props.endAddress,
+      duration: data.props.routes[0].duration,
+      distance: data.props.routes[0].distance,
+      routes: data.props.routes.slice(0, 2),
+      imgSrc: data.imgSrc
+    };
+
+    const html = RenderHBS.render('map.hbs', templateParams);
 
     return pdf
       .create(html, options)
-      .toFile(`${config.pdfPath}/${data.meta.id}.pdf`, (err, res) => {
+      .toFile(`${config.pdfPath}/${data.props.id}.pdf`, (err, res) => {
         if (err) return reject(err);
         resolve({pdf: path.basename(res.filename)});
       });

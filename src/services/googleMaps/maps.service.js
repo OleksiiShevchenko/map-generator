@@ -14,81 +14,99 @@ const GoogleMapsService = {
   /**
    * @param {Object} params
    * @param {number} params.id - list user id
-   * @param {string} params.from - origin zip code
+   * @param {string} params.zipCode - origin zip code
    * @param {string} params.to - destination zip code
    * @return {bluebird}
    */
   getDirections: (params) => new Promise((resolve, reject) => {
 
     const directionsParams = {
-      origin: params.from,
-      destination: params.to,
+      origin: params.zipCode,
+      destination: '7 Ballynahinch Rd, Hillsborough BT26 6AR, UK',
       mode: 'driving',
-      alternatives: false,
+      language: 'en',
+      units: 'imperial',
+      alternatives: true,
     };
 
     return gMaps.directions(directionsParams)
       .asPromise()
       .then(result => {
-
-        const meta = result.json.routes[0].legs[0];
-        const polyline = result.json.routes[0].overview_polyline.points;
+        const directionsData = result.json;
 
         const data = {
           id: params.id,
-          distance: meta.distance.text,
-          duration: meta.duration.text,
-          startAddress: meta.start_address,
-          endAddress: meta.end_address
+          routes: [],
+          startAddress: directionsData.routes[0].legs[0].start_address,
+          endAddress: directionsData.routes[0].legs[0].end_address
         };
 
-        return resolve({
-          data: data,
-          polyline: polyline
+        directionsData.routes.forEach(item => {
+          data.routes.push({
+            distance: item.legs[0].distance.text,
+            duration: item.legs[0].duration.text,
+            summary: item.summary,
+            polyline: item.overview_polyline.points
+          });
         });
+
+        data.routes.sort((a,b) => {
+          if (a.duration < b.duration)
+            return -1;
+          if (a.duration > b.duration)
+            return 1;
+          return 0;
+        });
+
+        return resolve(data);
 
       }).catch(err => reject(err));
   }),
 
   /**
    * @param {Object} params
-   * @param {string} params.polyline
-   * @param {Object} params.data
+   * @param {Object} params.id
+   * @param {Array} params.routes
+   * @param {String} params.startAddress
+   * @param {String} params.endAddress
    * @return {bluebird}
    */
   fetchStaticImage: (params) => new Promise((resolve, reject) => {
-
+    const apiEndpoint = 'https://maps.googleapis.com/maps/api/staticmap';
     const mapParams = {
       size: '640x640',
       scale: '2',
       language: 'en',
-      path: encodeURIComponent(params.polyline),
-      markers: `size:mid%7Ccolor:red%7C${encodeURIComponent(params.data.startAddress)}%7C${encodeURIComponent(params.data.endAddress)}`
+      path1: `weight:5%7Ccolor:0x4a80f5BB%7Cenc%3A${encodeURIComponent(params.routes[0].polyline)}`,
+      path2: `weight:5%7Ccolor:0x989898AA%7Cenc%3A${encodeURIComponent(params.routes[1].polyline)}`,
+      markers: `size:mid%7Ccolor:red%7C${encodeURIComponent(params.startAddress)}%7C${encodeURIComponent(params.endAddress)}`
     };
-
-    const apiEndpoint = 'https://maps.googleapis.com/maps/api/staticmap';
 
     const reqParams = `
       ?size=${mapParams.size}
       &scale=${mapParams.scale}
       &language=${mapParams.language}
-      &path=weight:8%7Ccolor:0x4a80f5FF%7Cenc%3A${mapParams.path}
+      &path=${mapParams.path1}
+      &path=${mapParams.path2}
       &markers=${mapParams.markers}
       &key=${config.googleMapsAPI.key}`;
 
     const reqUrl = apiEndpoint + reqParams.replace(/\s/g, '');
 
-    return request
+    return resolve({
+      imgSrc: reqUrl,
+      props: params
+    });
+
+    /*return request
       .get(reqUrl)
       .then(res => {
-        const imgBuffer = res.body;
         return resolve({
-          img: imgBuffer,
           imgSrc: reqUrl,
-          meta: params.data
+          props: params
         });
       })
-      .catch(err => reject(err));
+      .catch(err => reject(err));*/
   })
 
 

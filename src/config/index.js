@@ -9,7 +9,10 @@ module.exports = {
     key: 'AIzaSyCgmYT7nWxLoPzwfsvsMuMRZ9i4cqCH9IA'
   },
 
-  pdfPath: path.normalize(root + '/files'),
+  pdfPath: path.normalize(root + '/outputData'),
+
+  xlsPath: path.normalize(root + '/inputData'),
+
   logsPath: path.normalize(root + '/error.log')
 
 };
