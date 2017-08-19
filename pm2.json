@@ -5,7 +5,7 @@
       "script": "./index.js",
       "autorestart": false,
       "env": {
-        "DATA_SRC": "filename1.xls"
+        "DATA_SRC": "file1.xlsx"
       }
     },
     {
@@ -13,7 +13,31 @@
       "script": "./index.js",
       "autorestart": false,
       "env": {
-        "DATA_SRC": "filename2.xls"
+        "DATA_SRC": "file2.xlsx"
+      }
+    },
+    {
+      "name": "map-generator3",
+      "script": "./index.js",
+      "autorestart": false,
+      "env": {
+        "DATA_SRC": "file3.xlsx"
+      }
+    },
+    {
+      "name": "map-generator4",
+      "script": "./index.js",
+      "autorestart": false,
+      "env": {
+        "DATA_SRC": "file4.xlsx"
+      }
+    },
+    {
+      "name": "map-generator5",
+      "script": "./index.js",
+      "autorestart": false,
+      "env": {
+        "DATA_SRC": "file5.xlsx"
       }
     }
   ]

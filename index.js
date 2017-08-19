@@ -2,6 +2,6 @@
 
 
 const app = require('./src/app.js');
-const dataSource = process.env.DATA_SRC || 'mailmark_test_data.xlsx';
+const dataSource = process.env.DATA_SRC;
 
 app.init(dataSource);

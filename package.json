@@ -4,17 +4,21 @@
   "description": "generate maps with routes and journey times for trade exhibition attendees via Google Maps API for an XLS dataset",
   "scripts": {
     "start": "node index.js",
-    "test": ""
+    "test": "mocha"
   },
   "dependencies": {
     "@google/maps": "^0.4.3",
     "bluebird": "^3.5.0",
     "bunyan": "^1.8.12",
+    "chai": "^4.1.1",
     "handlebars": "^4.0.10",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
+    "mocha": "^3.5.0",
     "moment": "^2.18.1",
     "pm2": "^2.6.1",
+    "sinon": "^3.2.1",
+    "sinon-chai": "^2.13.0",
     "xlsx-json": "^0.1.0"
   },
   "devDependencies": {

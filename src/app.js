@@ -20,6 +20,9 @@ module.exports = {
       .then(data => Promise.each(data, (item, i, length) => new Promise((resolve, reject) => {
 
         return gService.getDirections(item)
+          .then(result => {
+            return gService.formatDirectionsResponse(result)
+          })
           .then(result => gService.fetchStaticImage(result))
           .then(result => pdfService.generateDocument(result))
           .then(result => {
