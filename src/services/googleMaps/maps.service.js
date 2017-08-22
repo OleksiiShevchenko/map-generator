@@ -19,6 +19,7 @@ const GoogleMapsService = {
    * @return {bluebird}
    */
   getDirections: (params) => new Promise((resolve, reject) => {
+    if (!params.zipCode) return resolve(null);
 
     const directionsParams = {
       origin: params.zipCode,
