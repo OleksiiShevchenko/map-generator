@@ -50,8 +50,7 @@ You can adjust gmail account used for sending email notifications by changing th
 
 **Important:** If you change a related google account you need to enable usage of less secure apps for it - https://myaccount.google.com/lesssecureapps
 
-* notificationRecipients
- `notificationRecipients` - enter comma-separated list of emails that notifications should be sent to
+* notificationRecipients - enter comma-separated list of emails that notifications should be sent to
 
 2. Configure applications pm2 configuration - open **pm2.json** in the root of the project. 
 Every object in the "apps" array represents an instance of the script. You have to specify 2 params:
