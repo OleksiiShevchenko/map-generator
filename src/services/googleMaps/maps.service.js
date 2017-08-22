@@ -2,6 +2,7 @@
 
 const config = require('../../config');
 const Promise = require('bluebird');
+const logger = require('../loggerService/logger.service');
 
 const gMaps = require('@google/maps').createClient({
   key: config.googleMapsAPI.key,
@@ -32,9 +33,12 @@ const GoogleMapsService = {
       .asPromise()
       .then(directions => resolve({directions, params}))
       .catch(err => {
+
         //google found no routes/locations
-        if (err.json && err.json.status == 'NOT_FOUND') return resolve(null);
-        else return reject(err)
+        if (err.json && err.json.status == 'NOT_FOUND') {
+          logger.error(`Skipped an entry due to error: ${JSON.stringify(params)}`);
+          return resolve(null);
+        } else return reject(err)
       });
   }),
 
@@ -49,7 +53,10 @@ const GoogleMapsService = {
 
     const directionsData = data.directions.json;
     const params = data.params;
-    if (directionsData.routes.length == 0) return resolve(null);
+    if (directionsData.routes.length == 0) {
+      logger.error(`Skipped an entry - google returned no routes: ${JSON.stringify(params)}`);
+      return resolve(null);
+    }
 
     data = {
       id: params.id,
