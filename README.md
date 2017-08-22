@@ -32,7 +32,7 @@ Google API daily request quota usage: [https://console.developers.google.com/iam
 
 ## Configuration
 
-1. Configure script's config file, that is located in `/src/config/index.js`.
+1. **Configure script's config file**, that is located in `/src/config/index.js`.
  
  * googleMapsAPI:
    * `key` - default google directions API key, that will be used for tests and development mode. The key can be generated [here](https://console.developers.google.com/apis/library). Note that you need to enable **Google Maps Directions API** and **Google Static Maps API** for the software to work properly. Application can have only one default API key in its configuration file.
@@ -52,18 +52,18 @@ You can adjust gmail account used for sending email notifications by changing th
 
 * notificationRecipients - enter comma-separated list of emails that notifications should be sent to
 
-2. pm2 configuration - open **pm2.json** in the root of the project. 
-Every object in the "apps" array represents an instance of the script. You have to specify 2 params:
+2. **pm2 configuration** - open **pm2.json** in the root of the project. 
+Every object in the "apps" array represents an instance of the script. You have to specify 2 params for each instance:
 
-* `DATA_SRC` - (required) a source xlsx file. It is recommended to separate large xlsx tables into smaller files, and let every instance process its own one. For example if you have a database of 35k entries, you can split it into multiple files 2400/5000 each (depending if you use paid API key or free) and let have 7-15 instances of the script to process these files.
+* `DATA_SRC` (required) - a source xlsx file. It is recommended to break large xlsx tables into smaller files and let every instance process its own one. For example if you have a database of 35k entries, you can split it into multiple files 2400/5000 entries each (depending if you use paid API key or free) and have 7-15 instances of the script process these files.
 
-* `KEY` - stands for the Google API key. You can provide individual key for each instance, each key has a limit of 2500 daily requests. If you don't provide this parameter application will use default key from config file. 
+* `KEY` - stands for the Google API key. You can provide an individual key for each instance. Every key has a limit of 2500 daily requests. If you don't provide this parameter application will use a default key from its config file.
 
 ## Running the script
 
 * To start a script in development mode use command `npm start`. It will process 1 entry and generate 1 file (1.pdf). It is used for testing and development. 
 
-* To execute script in a production mode use `pm2 start pm2.json`. Once the app is started, you can see list of all processes and their status via command `pm2 list`. To see logs in real time use command `pm2 logs` or `pm2 logs map-generator1` to see logs for particular instance of the script.
+* To execute script in a production mode use `pm2 start pm2.json`. Once the app is started, you can see list of all processes and their status via command `pm2 list`. To see logs in real time use command `pm2 logs` or `pm2 logs map-generator1` to see logs for a particular instance of the script.
 
 ## Tests
 
