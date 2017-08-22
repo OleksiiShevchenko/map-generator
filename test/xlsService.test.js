@@ -19,11 +19,9 @@ describe('XLSX Service Test Suite', function () {
 
         assert.exists(data, 'data is neither `null` nor `undefined`');
         assert.typeOf(data, 'array', 'data is array');
-        assert.lengthOf(data, 3, 'data array has a length of 3');
+        assert.lengthOf(data, 1, 'data array has a length of 3');
         assert.containsAllKeys(data, {
-          "0": {id: 'id', zipCode: 'zipCode'},
-          "1": {id: 'id', zipCode: 'zipCode'},
-          "2": {id: 'id', zipCode: 'zipCode'}
+          "0": {id: 'id', zipCode: 'zipCode'}
         }, 'object structure is right');
 
       });

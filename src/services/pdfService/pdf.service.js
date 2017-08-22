@@ -20,7 +20,8 @@ const PDFService = {
 
     const options = {
       format: "A4",
-      orientation: "portrait"
+      orientation: "portrait",
+      timeout: 90000
     };
 
     const templateParams = {

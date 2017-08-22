@@ -15,39 +15,34 @@ const XLSService = {
 
     if (!dataSrc) return resolve([
       {
-        Zipcode: '02113',
+        postcode: 'BT1 2NQ',
+        seq_num: '1'
       }
     ]);
 
     const src = config.xlsPath + '/' + dataSrc;
 
-    return resolve(xls({
+    return xls({
       input: src,
       output: null
-    }));
+    }).then(data => {
+      return resolve(data);
+    }).catch(err => {
+      return reject(err)
+    });
 
   }).then(result => {
     return Promise.map(result, item => {
 
-      //original data structure
-      /*return {
-        zipCode: item.postcode,
-        address1: item.address1,
-        address2: item.address2,
-        address3: item.address3,
-        address4: item.address4,
-        id: item.seq_num
-      };*/
-
-      //test data structure
       return {
-        zipCode: item.Zipcode,
-        id: item.Zipcode
+        zipCode: item.postcode,
+        id: item.seq_num
       };
 
     });
-  }).then(data => data)
-    .catch(err => err)
+  }).then(data => {
+    return data;
+  })
 
 };
 

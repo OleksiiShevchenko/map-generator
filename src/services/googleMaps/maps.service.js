@@ -21,19 +21,17 @@ const GoogleMapsService = {
 
     const directionsParams = {
       origin: params.zipCode,
-      destination: 'One World Trade Center',
-      mode: 'driving',
-      language: 'en',
-      units: 'imperial',
-      alternatives: true,
+      destination: config.googleMapsAPI.destination,
+      mode: config.googleMapsAPI.mode,
+      language: config.googleMapsAPI.language,
+      units: config.googleMapsAPI.units,
+      alternatives: config.googleMapsAPI.alternatives
     };
 
     return gMaps.directions(directionsParams)
       .asPromise()
       .then(directions => resolve({directions, params}))
       .catch(err => {
-        if (err) console.log(err, 'Error returned by google directions API');
-
         //google found no routes/locations
         if (err.json && err.json.status == 'NOT_FOUND') return resolve(null);
         else return reject(err)
@@ -41,11 +39,11 @@ const GoogleMapsService = {
   }),
 
   /**
-  * @param {object} data
-  * @param {object} data.directions
-  * @param {object} data.params
-  * @returns {object}
-  */
+   * @param {object} data
+   * @param {object} data.directions
+   * @param {object} data.params
+   * @returns {object}
+   */
   formatDirectionsResponse: (data) => new Promise((resolve, reject) => {
     if (!data) return resolve(null);
 
@@ -69,7 +67,7 @@ const GoogleMapsService = {
       });
     });
 
-    data.routes.sort((a,b) => {
+    data.routes.sort((a, b) => {
       if (a.duration < b.duration)
         return -1;
       if (a.duration > b.duration)
@@ -98,35 +96,25 @@ const GoogleMapsService = {
       scale: '2',
       language: 'en',
       path1: `weight:5%7Ccolor:0x4a80f5BB%7Cenc%3A${encodeURIComponent(params.routes[0].polyline)}`,
-      marker1: `icon:${encodeURIComponent('https://i.imgur.com/4XeBuu0.png')}%7C${encodeURIComponent(params.startAddress)}`,
+      marker1: null, //`icon:${encodeURIComponent('https://i.imgur.com/lsrTsZs.png')}%7C${encodeURIComponent(params.startAddress)}`,
       marker2: `size:mid%7Ccolor:red%7C${encodeURIComponent(params.endAddress)}`
     };
 
 
+    reqParams = `
+        ?size=${mapParams.size}
+        &scale=${mapParams.scale}
+        &language=${mapParams.language}
+        &path=${mapParams.path1}`;
+
     if (params.routes.length > 1) {
       mapParams.path2 = `weight:5%7Ccolor:0x989898AA%7Cenc%3A${encodeURIComponent(params.routes[1].polyline)}`;
-
-      reqParams = `
-        ?size=${mapParams.size}
-        &scale=${mapParams.scale}
-        &language=${mapParams.language}
-        &path=${mapParams.path1}
-        &path=${mapParams.path2}
-        &markers=${mapParams.marker2}
-        &key=${config.googleMapsAPI.key}`;
-      //try only one marker
-      //&markers=${mapParams.marker1}
-    } else {
-
-      reqParams = `
-        ?size=${mapParams.size}
-        &scale=${mapParams.scale}
-        &language=${mapParams.language}
-        &path=${mapParams.path1}
-        &markers=${mapParams.marker2}
-        &key=${config.googleMapsAPI.key}`;
-
+      reqParams += `&path=${mapParams.path2}`;
     }
+
+    if (mapParams.marker1) reqParams += `&markers=${mapParams.marker2}`;
+    reqParams += `&markers=${mapParams.marker2}`;
+    reqParams += `&key=${config.googleMapsAPI.key}`;
 
     const reqUrl = apiEndpoint + reqParams.replace(/\s/g, '');
 
