@@ -52,7 +52,7 @@ You can adjust gmail account used for sending email notifications by changing th
 
 * notificationRecipients - enter comma-separated list of emails that notifications should be sent to
 
-2. Configure applications pm2 configuration - open **pm2.json** in the root of the project. 
+2. pm2 configuration - open **pm2.json** in the root of the project. 
 Every object in the "apps" array represents an instance of the script. You have to specify 2 params:
 
 * `DATA_SRC` - (required) a source xlsx file. It is recommended to separate large xlsx tables into smaller files, and let every instance process its own one. For example if you have a database of 35k entries, you can split it into multiple files 2400/5000 each (depending if you use paid API key or free) and let have 7-15 instances of the script to process these files.
