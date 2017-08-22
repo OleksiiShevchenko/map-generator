@@ -20,7 +20,7 @@
     "pm2": "^2.6.1",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
-    "xlsx-json": "^0.1.0"
+    "xlsx-to-json": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^4.4.1",
