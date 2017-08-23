@@ -16,7 +16,6 @@ const PDFService = {
    * @return {bluebird}
    */
   generateDocument: (data) => new Promise((resolve, reject) => {
-    if (!data) return resolve(null);
 
     const options = {
       format: "A4",
@@ -25,11 +24,11 @@ const PDFService = {
     };
 
     const templateParams = {
-      startAddress: data.props.startAddress,
+      startAddress: data.props.startAddress || '',
       endAddress: data.props.endAddress,
-      duration: data.props.routes[0].duration,
-      distance: data.props.routes[0].distance,
-      routes: data.props.routes.slice(0, 2),
+      duration: data.props.routes ? data.props.routes[0].duration : null,
+      distance: data.props.routes ? data.props.routes[0].distance : null,
+      routes: data.props.routes ? data.props.routes.slice(0, 2) : [],
       imgSrc: data.imgSrc
     };
 
@@ -38,7 +37,6 @@ const PDFService = {
     return pdf
       .create(html, options)
       .toFile(`${config.pdfPath}/${data.props.id}.pdf`, (err, res) => {
-        if (err) console.log(err, 'Error returned by PDF generator service');
         if (err) return reject(err);
         resolve({pdf: path.basename(res.filename)});
       });

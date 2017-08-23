@@ -2,6 +2,10 @@
 
 const bunyan = require('bunyan');
 const config = require('../../config');
+const PrettyStream = require('bunyan-pretty-colors');
+const prettyStdOut = new PrettyStream();
+
+prettyStdOut.pipe(process.stdout);
 
 
 const logger = bunyan.createLogger({
@@ -9,7 +13,7 @@ const logger = bunyan.createLogger({
   streams: [
     {
       level: 'info',
-      stream: process.stdout
+      stream: prettyStdOut
     },
     {
       level: 'error',

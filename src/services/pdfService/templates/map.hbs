@@ -78,7 +78,9 @@
             <b>{{{startAddress}}}</b> To <b>{{{endAddress}}}</b>
         </div>
         <div style="width:50%;font-size: 16px; font-weight: 300; text-align: right; float:right">
-            Drive {{{distance}}}, {{{duration}}}
+            {{#if distance}}
+                Drive {{{distance}}}, {{{duration}}}
+            {{/if}}
         </div>
     </header>
     <main style="clear:both">

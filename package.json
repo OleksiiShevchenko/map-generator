@@ -10,6 +10,7 @@
     "@google/maps": "^0.4.3",
     "bluebird": "^3.5.0",
     "bunyan": "^1.8.12",
+    "bunyan-pretty-colors": "^0.1.7",
     "chai": "^4.1.1",
     "handlebars": "^4.0.10",
     "html-pdf": "^2.1.0",
