@@ -60,7 +60,7 @@ const GoogleMapsService = {
    */
   formatDirectionsResponse: (data) => new Promise((resolve, reject) => {
 
-    if (!data.directions) return resolve({
+    if (!data.directions || data.directions.json.routes.length == 0) return resolve({
       id: data.params.id,
       routes: null,
       startAddress: null,
@@ -69,11 +69,6 @@ const GoogleMapsService = {
 
     const directionsData = data.directions.json;
     const params = data.params;
-
-    if (directionsData.routes.length == 0) {
-      logger.error(`Skipped an entry - google returned no routes: ${JSON.stringify(params)}`);
-      return resolve(null);
-    }
 
     data = {
       id: params.id,
